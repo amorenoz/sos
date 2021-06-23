@@ -93,6 +93,7 @@ class OVNCentral(Plugin):
             'ovn-nbctl list Load_Balancer',
             'ovn-nbctl list ACL',
             'ovn-nbctl list Logical_Switch_Port',
+            'ovndbclient backup {}'.format(self.ovn_nbdb_sock_path)
         ]
 
         sbctl_cmds = [
@@ -100,6 +101,7 @@ class OVNCentral(Plugin):
             'ovn-sbctl lflow-list',
             'ovn-sbctl get-ssl',
             'ovn-sbctl get-connection',
+            'ovndbclient backup {}'.format(self.ovn_sbdb_sock_path)
         ]
 
         schema_dir = '/usr/share/openvswitch'
@@ -149,9 +151,13 @@ class RedHatOVNCentral(OVNCentral, RedHatPlugin):
 
     packages = ('openvswitch-ovn-central', 'ovn2.*-central', )
     ovn_sbdb_sock_path = '/var/run/openvswitch/ovnsb_db.ctl'
+    ovn_nbdb_server_sock_path = '/var/run/openvswitch/ovnnb_db.sock'
+    ovn_sbdb_server_sock_path = '/var/run/openvswitch/ovnsb_db.sock'
 
 
 class DebianOVNCentral(OVNCentral, DebianPlugin, UbuntuPlugin):
 
     packages = ('ovn-central', )
     ovn_sbdb_sock_path = '/var/run/ovn/ovnsb_db.ctl'
+    ovn_nbdb_server_sock_path = '/var/run/ovn/ovnnb_db.sock'
+    ovn_sbdb_server_sock_path = '/var/run/ovn/ovnsb_db.sock'
